@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
+local mux = wezterm.mux
 
 config.automatically_reload_config = true
 config.font_size = 12.0
@@ -11,8 +12,16 @@ config.macos_window_background_blur = 20
 config.ssh_domains = {
   {
     name = 'dev',
-    remote_address = '100.123.147.81',
+    remote_address = 'hijo-dev',
     username = 'hijoushoku9',
+    connect_automatically = true,
+    multiplexing = 'None',
+    assume_shell = 'Posix',
+  },
+  {
+    name = 'web',
+    remote_address = 'hijo-web-server',
+    username = 'hijoushoku8',
     connect_automatically = true,
     multiplexing = 'None',
     assume_shell = 'Posix',
@@ -20,8 +29,34 @@ config.ssh_domains = {
 }
 config.default_domain = 'dev'
 --
+config.wsl_domains = {
+  {
+    name = 'WSL:Ubuntu',
+    distribution = 'Ubuntu',    -- `wsl -l` で出る実際の名前に
+  },
+}
 
 
+wezterm.on("gui-startup", function(cmd)
+  -- 1つ目のタブ兼ウィンドウを dev で生成
+  local tab, pane, window = mux.spawn_window({
+    domain = { DomainName = "dev" },
+  })
+
+  -- 2つ目のタブ: dev2
+  window:spawn_tab({
+    domain = { DomainName = "web" },
+  })
+
+  -- 3つ目のタブ: WSL
+  window:spawn_tab({
+    args = {"powershell.exe"},
+    domain = { DomainName = "local" },
+  })
+
+  -- 最初(dev)のタブをアクティブにしておく
+  tab:activate()
+end)
 
 ----------------------------------------------------
 -- Tab
@@ -43,7 +78,7 @@ config.window_frame = {
 
 -- タブバーを背景色に合わせる
 config.window_background_gradient = {
-  colors = { "#000000" },
+  colors = { "#131d27" },
 }
 
 -- タブの追加ボタンを非表示
@@ -66,11 +101,11 @@ local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  local background = "#5c6d74"
+  local background = "#798438"
   local foreground = "#FFFFFF"
   local edge_background = "none"
   if tab.is_active then
-    background = "#ae8b2d"
+    background = "#be5ba2"
     foreground = "#FFFFFF"
   end
   local edge_foreground = background
