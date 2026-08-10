@@ -12,8 +12,8 @@ config.macos_window_background_blur = 20
 config.ssh_domains = {
   {
     name = 'dev',
-    remote_address = 'hijo-dev',
-    username = 'hijoushoku9',
+    remote_address = 'dev-server',
+    username = 'hijo-dev',
     connect_automatically = true,
     multiplexing = 'None',
     assume_shell = 'Posix',
@@ -22,6 +22,14 @@ config.ssh_domains = {
     name = 'web',
     remote_address = 'hijo-web-server',
     username = 'hijoushoku8',
+    connect_automatically = true,
+    multiplexing = 'None',
+    assume_shell = 'Posix',
+  },
+  {
+    name = 'mc',
+    remote_address = 'hijo-mc-server',
+    username = 'hijoushoku7',
     connect_automatically = true,
     multiplexing = 'None',
     assume_shell = 'Posix',
@@ -46,6 +54,9 @@ wezterm.on("gui-startup", function(cmd)
   -- 2つ目のタブ: dev2
   window:spawn_tab({
     domain = { DomainName = "web" },
+  })
+  window:spawn_tab({
+    domain = { DomainName = "mc" },
   })
 
   -- 3つ目のタブ: WSL

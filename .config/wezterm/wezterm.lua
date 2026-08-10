@@ -12,8 +12,8 @@ config.macos_window_background_blur = 20
 config.ssh_domains = {
   {
     name = 'dev',
-    remote_address = 'hijo-dev',
-    username = 'hijoushoku9',
+    remote_address = 'dev-server',
+    username = 'hijo-dev',
     connect_automatically = true,
     multiplexing = 'None',
     assume_shell = 'Posix',
