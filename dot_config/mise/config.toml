@@ -12,11 +12,12 @@ node = "26"
 go   = "1.26"
 
 # --- CLI ツール ---
-eza    = "latest"
-gh     = "latest"
-tmux   = "latest"
-claude = "latest"
-codex  = "latest"
+eza     = "latest"
+gh      = "latest"
+lazygit = "latest"
+tmux    = "latest"
+claude  = "latest"
+codex   = "latest"
 
 # npm は node に同梱されているので通常この行は不要。
 # node 同梱版と別の npm を使いたい場合だけ有効化する（同梱版を上書きします）
