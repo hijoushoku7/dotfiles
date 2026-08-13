@@ -33,7 +33,7 @@ then
 fi
 
 #alias
-alias ls = 'ls -a'
+alias ls= 'ls -a'
 alias rm='rm -v'
 alias mv='mv -v'
 alias cp='cp -v'
