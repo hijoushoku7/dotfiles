@@ -8,8 +8,12 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # activating tools
-eval "$(mise activate zsh)"
+# PATH を変更するものを先に済ませ、mise activate を最後に置く。
+# mise は実行時点で PATH の先頭に挿すため、後ろに他の PATH 追加があると
+# mise 管理のツールがそちらに隠されてしまう。
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+export PATH="$HOME/.local/bin:$PATH"
+eval "$(mise activate zsh)"
 
 plugins=(
   zsh-autosuggestions
@@ -45,5 +49,3 @@ alias cp='cp -v'
 alias ta='tmux attach'
 alias tn='tmux new'
 alias cm='chezmoi'
-
-export PATH="$HOME/.local/bin:$PATH"
