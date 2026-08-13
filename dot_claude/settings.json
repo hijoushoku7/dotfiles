@@ -1,6 +1,4 @@
 {
-  "model": "opus",
-  "theme": "dark",
   "permissions": {
     "allow": [
       "Bash(git status:*)",
@@ -14,24 +12,13 @@
       "Bash(git switch:*)",
       "Bash(git branch:*)",
       "Bash(git fetch:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr diff:*)",
       "Bash(gh issue view:*)",
       "Bash(gh issue list:*)"
-    ],
-    "ask": [
-      "Bash(gh pr create:*)",
-      "Bash(gh pr merge:*)",
-      "Bash(gh pr close:*)",
-      "Bash(gh release create:*)",
-      "Bash(gh repo delete:*)",
-      "Bash(git push:*)",
-      "Bash(git tag:*)",
-      "Bash(git rebase:*)",
-      "Bash(git cherry-pick:*)",
-      "Bash(chezmoi apply:*)",
-      "Bash(chezmoi forget:*)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
@@ -62,7 +49,6 @@
       "Bash(cat *.env*)",
       "Bash(cat ~/.aws/credentials*)",
       "Bash(cat ~/.claude/.credentials.json*)",
-
       "Read(.env)",
       "Read(**/.env)",
       "Read(**/.env.*)",
@@ -81,7 +67,6 @@
       "Read(~/.aws/credentials)",
       "Read(~/.config/gcloud/**)",
       "Read(~/.claude/.credentials.json)",
-
       "Edit(.env)",
       "Edit(**/.env)",
       "Edit(**/.env.*)",
@@ -100,6 +85,30 @@
       "Edit(~/.aws/credentials)",
       "Edit(~/.config/gcloud/**)",
       "Edit(~/.claude/.credentials.json)"
+    ],
+    "ask": [
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh release create:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(git tag:*)",
+      "Bash(git rebase:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(chezmoi apply:*)",
+      "Bash(chezmoi forget:*)"
     ]
+  },
+  "model": "opus",
+  "extraKnownMarketplaces": {
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
+  },
+  "theme": "dark",
+  "enabledPlugins": {
+    "codex@openai-codex": true
   }
 }
