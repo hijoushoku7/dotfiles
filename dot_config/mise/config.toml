@@ -18,12 +18,6 @@ tmux   = "latest"
 claude = "latest"
 codex  = "latest"
 
-# --- データベース ---
-# 注意: postgres は asdf/vfox バックエンドでソースからビルドされる。
-# 初回インストールは数分〜十数分かかり、ビルド依存が必要:
-#   sudo apt install build-essential libreadline-dev zlib1g-dev libicu-dev pkg-config bison flex
-postgres = "18"
-
 # npm は node に同梱されているので通常この行は不要。
 # node 同梱版と別の npm を使いたい場合だけ有効化する（同梱版を上書きします）
 # npm = "latest"
