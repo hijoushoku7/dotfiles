@@ -7,6 +7,8 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+# activating tools
+eval "$(mise activate zsh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
 plugins=(
