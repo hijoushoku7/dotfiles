@@ -31,4 +31,14 @@ then
   autoload -Uz compinit
   compinit
 fi
+
+#alias
+alias ls = 'ls -a'
+alias rm='rm -v'
+alias mv='mv -v'
+alias cp='cp -v'
+alias ta='tmux attach'
+alias tn='tmux new'
+alias cm='chezmoi'
+
 export PATH="$HOME/.local/bin:$PATH"
