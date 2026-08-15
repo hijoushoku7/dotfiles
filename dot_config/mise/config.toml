@@ -26,7 +26,6 @@ bat      = "latest"
 btop     = "latest"
 dust     = "latest"
 fd       = "latest"
-atuin    = "latest"
 
 # npm は node に同梱されているので通常この行は不要。
 # node 同梱版と別の npm を使いたい場合だけ有効化する（同梱版を上書きします）
