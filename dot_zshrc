@@ -9,14 +9,16 @@ plugins=(
   docker-compose
   httpie
   zsh-bat
+  zsh-autosuggestions
+  fzf-tab
+  zsh-completions
+  fast-syntax-highlighting
   sudo
   extract  
 )
 
 # activating tools
 # PATH を変更するものを先に済ませ、mise activate を最後に置く。
-# mise は実行時点で PATH の先頭に挿すため、後ろに他の PATH 追加があると
-# mise 管理のツールがそちらに隠されてしまう。
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 fi
