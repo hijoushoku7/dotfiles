@@ -5,9 +5,6 @@ ZSH_THEME="agnoster"
 plugins=(
   git
   gh
-  docker
-  docker-compose
-  httpie
   zsh-bat
   zsh-autosuggestions
   sudo
@@ -16,7 +13,6 @@ plugins=(
 )
 
 # activating tools
-# PATH を変更するものを先に済ませ、mise activate を最後に置く。
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 fi
@@ -59,4 +55,4 @@ alias ta='tmux attach'
 alias tn='tmux new'
 alias t='tmux'
 alias cm='chezmoi'
-alias c='claude'
+alias cld='claude'
