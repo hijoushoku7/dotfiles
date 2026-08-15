@@ -21,3 +21,12 @@
         args = ["--depth=1"]
     [".oh-my-zsh/custom/plugins/zsh-autosuggestions".pull]
         args = ["--ff-only"]
+
+[".oh-my-zsh/custom/plugins/zsh-bat"]
+    type = "git-repo"
+    url = "https://github.com/fdellwing/zsh-bat.git"
+    refreshPeriod = "168h"
+    [".oh-my-zsh/custom/plugins/zsh-bat".clone]
+        args = ["--depth=1"]
+    [".oh-my-zsh/custom/plugins/zsh-bat".pull]
+        args = ["--ff-only"]
