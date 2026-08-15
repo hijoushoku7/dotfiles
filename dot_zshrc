@@ -11,7 +11,8 @@ plugins=(
   zsh-bat
   zsh-autosuggestions
   sudo
-  extract  
+  extract
+  z  
 )
 
 # activating tools
