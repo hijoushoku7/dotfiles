@@ -1,0 +1,23 @@
+# chezmoi が管理する外部リポジトリ。
+# リポジトリ本体には含めず、apply 時に取得・定期更新する。
+# docs: https://www.chezmoi.io/reference/special-files/chezmoiexternal-format/
+
+[".oh-my-zsh"]
+    type = "git-repo"
+    url = "https://github.com/ohmyzsh/ohmyzsh.git"
+    refreshPeriod = "168h" # 1週間ごとに pull
+    [".oh-my-zsh".clone]
+        args = ["--depth=1"]
+    [".oh-my-zsh".pull]
+        args = ["--ff-only"]
+
+# oh-my-zsh の custom/ は本体の .gitignore で除外されているので、
+# 中に別リポジトリを置いても本体側の git status は汚れない。
+[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+    type = "git-repo"
+    url = "https://github.com/zsh-users/zsh-autosuggestions.git"
+    refreshPeriod = "168h"
+    [".oh-my-zsh/custom/plugins/zsh-autosuggestions".clone]
+        args = ["--depth=1"]
+    [".oh-my-zsh/custom/plugins/zsh-autosuggestions".pull]
+        args = ["--ff-only"]

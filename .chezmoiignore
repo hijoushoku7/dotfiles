@@ -1,4 +1,6 @@
+# リポジトリ用のファイル (ホームには配置しない)
 install.sh
+README.md
 
 # Claude Code: secrets and per-machine state
 .claude/.credentials.json

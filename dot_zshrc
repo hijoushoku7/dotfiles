@@ -1,33 +1,32 @@
-
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="agnoster"
 
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
+plugins=(
+  git
+  gh
+  docker
+  docker-compose
+  httpie
+  aws
+  zsh-autosuggestions
+)
 
 # activating tools
 # PATH を変更するものを先に済ませ、mise activate を最後に置く。
 # mise は実行時点で PATH の先頭に挿すため、後ろに他の PATH 追加があると
 # mise 管理のツールがそちらに隠されてしまう。
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+fi
 export PATH="$HOME/.local/bin:$PATH"
-eval "$(mise activate zsh)"
-
-plugins=(
-  zsh-autosuggestions
-  aws
-  gh
-  git
-  docker
-  docker-compose
-  httpie
-)
 
 source $ZSH/oh-my-zsh.sh
+
+command -v mise >/dev/null && eval "$(mise activate zsh)"
+
 # Starship
-eval "$(starship init zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
 
 # github cli
 if type brew &>/dev/null

@@ -1,0 +1,22 @@
+#!/bin/sh
+# ~/.config/mise/config.toml が変わったときだけ `mise install` を走らせる。
+# 下のハッシュは chezmoi がテンプレート展開時に埋め込む。内容が変われば
+# スクリプト本文が変わり、chezmoi が再実行してくれる。
+#
+# config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+
+set -eu
+
+log() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
+
+PATH="${HOME}/.local/bin:${PATH}"
+export PATH
+
+command -v mise >/dev/null 2>&1 || {
+    log "mise が見つからないのでツールのインストールをスキップします"
+    exit 0
+}
+
+log "mise でツールをインストールします (時間がかかります)"
+mise install
+mise reshim 2>/dev/null || true
