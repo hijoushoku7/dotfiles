@@ -10,7 +10,6 @@ plugins=(
   httpie
   zsh-bat
   zsh-autosuggestions
-  fzf-tab
   sudo
   extract  
 )
@@ -37,6 +36,15 @@ then
   autoload -Uz compinit
   compinit
 fi
+
+# fzf history
+function fzf-select-history() {
+    BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER" --reverse)
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+zle -N fzf-select-history
+bindkey '^r' fzf-select-history
 
 #alias
 alias ls='eza --icons --group-directories-first'
