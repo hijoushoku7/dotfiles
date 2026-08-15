@@ -36,7 +36,6 @@
       "Bash(git reset --hard:*)",
       "Bash(git clean -f:*)",
       "Bash(git clean -xdf:*)",
-      "Bash(git branch -D:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
       "Bash(git push*--force*)",
