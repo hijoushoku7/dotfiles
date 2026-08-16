@@ -51,9 +51,13 @@ alias lt='eza --tree --level=2 --icons'
 alias rm='rm -v'
 alias mv='mv -v'
 alias cp='cp -v'
+
+#tmux
 alias ta='tmux attach'
 alias tn='tmux new'
 alias t='tmux'
+alias tls='tmux ls'
+#tools
 alias cm='chezmoi'
 alias cld='claude'
 alias lg='lazygit'
