@@ -1,4 +1,4 @@
-# Windows ネイティブ環境で winget から入れておきたい最低限のもの。
+﻿# Windows ネイティブ環境で winget から入れておきたい最低限のもの。
 # (run_once_before_00-apt-packages.sh の Windows 版)
 #
 # 言語ランタイムと CLI ツールは mise 側 (~/.config/mise/config.toml) が管理するので、

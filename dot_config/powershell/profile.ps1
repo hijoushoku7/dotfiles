@@ -1,4 +1,4 @@
-# PowerShell プロファイル本体 (Windows ネイティブ用 / ~/.zshrc に相当)
+﻿# PowerShell プロファイル本体 (Windows ネイティブ用 / ~/.zshrc に相当)
 #
 # $PROFILE そのものではなく ~/.config/powershell/profile.ps1 に置いている。
 # Documents\ は OneDrive にリダイレクトされることがあり、PowerShell 7 と

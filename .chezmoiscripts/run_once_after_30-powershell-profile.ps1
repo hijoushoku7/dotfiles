@@ -1,4 +1,4 @@
-# $PROFILE に「~/.config/powershell/profile.ps1 を読むだけ」のスタブを置く。
+﻿# $PROFILE に「~/.config/powershell/profile.ps1 を読むだけ」のスタブを置く。
 # (Unix 側の run_once_after_30-default-shell.sh に対応する位置づけ)
 #
 # なぜスタブなのか:

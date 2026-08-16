@@ -1,4 +1,4 @@
-# mise 本体をインストールする (run_once_before_10-install-mise.sh の Windows 版)。
+﻿# mise 本体をインストールする (run_once_before_10-install-mise.sh の Windows 版)。
 # ツールの中身 (node/go/gh/...) は ~/.config/mise/config.toml が配置されたあとに
 # run_onchange_after_20-mise-install.ps1 がインストールする。
 
