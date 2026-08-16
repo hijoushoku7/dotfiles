@@ -98,19 +98,6 @@
     ]
   },
   "model": "opus",
-  "enabledPlugins": {
-    "codex@openai-codex": true
-  },
-  "extraKnownMarketplaces": {
-    "openai-codex": {
-      "source": {
-        "source": "github",
-        "repo": "openai/codex-plugin-cc"
-      }
-    }
-  },
-  "theme": "dark",
-  "agentPushNotifEnabled": true,
   "hooks": {
     "Notification": [
       {
@@ -142,5 +129,19 @@
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {
+    "codex@openai-codex": true
+  },
+  "extraKnownMarketplaces": {
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
+  },
+  "theme": "dark",
+  "agentPushNotifEnabled": true,
+  "effortLevel": "medium"
 }
