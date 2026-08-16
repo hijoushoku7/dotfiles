@@ -43,6 +43,9 @@ function fzf-select-history() {
 zle -N fzf-select-history
 bindkey '^r' fzf-select-history
 
+#EDITOR
+export EDITOR=nvim
+
 #alias
 alias ls='eza --icons --group-directories-first'
 alias la='eza -a --icons --group-directories-first'
