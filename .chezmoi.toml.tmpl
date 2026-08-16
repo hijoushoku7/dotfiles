@@ -2,11 +2,14 @@
   chezmoi 自身の設定。`chezmoi init` のときだけ評価される。
   docs: https://www.chezmoi.io/reference/target-types/#configuration-file
 */ -}}
-{{- $isWindows := eq .chezmoi.os "windows" -}}
 
 # OS の判定は各テンプレート側で .chezmoi.os / .chezmoi.kernel.osrelease から
 # 直接おこなう。ここに [data] として持たせると、環境が変わったときに
 # `chezmoi init` で再生成するまで古い値が使われてしまうため。
+
+# Windows ではスクリプトを一切実行しないので [interpreters] は要らない。
+# .chezmoiscripts/ に残っているのは *.sh だけで、それは .chezmoiignore が
+# Windows で丸ごと落としている。
 
 [edit]
     command = "nvim"
@@ -14,12 +17,3 @@
 [git]
     autoCommit = true
     autoPush = true
-{{ if $isWindows }}
-# Windows では .chezmoiscripts/*.ps1 を PowerShell で実行する。
-# 既定は `pwsh -NoLogo -File` だが、PowerShell 7 が無いマシンでは
-# Windows PowerShell 5.1 (powershell.exe) にフォールバックする。
-# docs: https://www.chezmoi.io/reference/configuration-file/interpreters/
-[interpreters.ps1]
-    command = {{ if lookPath "pwsh" }}"pwsh"{{ else }}"powershell"{{ end }}
-    args = ["-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File"]
-{{ end -}}

@@ -3,7 +3,7 @@
 #
 #   sh -c "$(curl -fsLS https://raw.githubusercontent.com/hijoushoku7/dotfiles/main/install.sh)"
 #
-# Windows ネイティブ (PowerShell) 側は install.ps1 を使うこと。
+# Windows ネイティブ側は自動化していない (README を参照)。
 #
 # ここでやるのは chezmoi を動かすための最小限だけ。
 #   1. curl / git / ca-certificates を入れる

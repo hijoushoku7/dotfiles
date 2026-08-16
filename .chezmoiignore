@@ -7,7 +7,6 @@
 
 # リポジトリ用のファイル (ホームには配置しない)
 install.sh
-install.ps1
 README.md
 
 # Claude Code: secrets and per-machine state
@@ -28,20 +27,14 @@ README.md
 # ---------------------------------------------------------------------------
 # Windows では使わないもの
 # ---------------------------------------------------------------------------
-# zsh / tmux / oh-my-zsh は WSL 側の担当
+# Windows 側は設定ファイルを配るだけ。シェル環境の構築は WSL の担当なので、
+# zsh / tmux / oh-my-zsh と .chezmoiscripts/ を丸ごと落とす。
 .zshrc
 .tmux.conf
 .oh-my-zsh
 .oh-my-zsh/**
 .claude/hooks
 .claude/hooks/**
-# sh スクリプトは実行できない
-.chezmoiscripts/*.sh
-{{ else -}}
-# ---------------------------------------------------------------------------
-# Unix (Linux / WSL) では使わないもの
-# ---------------------------------------------------------------------------
-.config/powershell
-.config/powershell/**
-.chezmoiscripts/*.ps1
+.chezmoiscripts
+.chezmoiscripts/**
 {{ end -}}

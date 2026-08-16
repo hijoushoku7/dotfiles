@@ -3,7 +3,7 @@
 # docs: https://www.chezmoi.io/reference/special-files/chezmoiexternal-format/
 #
 # oh-my-zsh 一式は zsh を使う環境 (Linux / WSL) だけ。
-# Windows ネイティブでは PowerShell プロファイルを使うので取得しない。
+# Windows ネイティブではシェルを触らないので取得しない。
 {{ if ne .chezmoi.os "windows" }}
 [".oh-my-zsh"]
     type = "git-repo"

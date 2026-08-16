@@ -3,16 +3,22 @@
 hijoushoku 専用の dotfiles。[chezmoi](https://www.chezmoi.io/) で管理し、
 言語ランタイムと CLI ツールは [mise](https://mise.jdx.dev/) に任せている。
 
-対象環境は 3 つ。
+対象環境は 3 つ。**環境構築までやるのは Unix 側だけ**で、Windows ネイティブは
+設定ファイルを配るだけに徹する。
 
-| 環境 | ブートストラップ | シェル | パッケージ |
-|---|---|---|---|
-| Linux (Ubuntu / Debian) | `install.sh` | zsh + oh-my-zsh | apt + mise |
-| WSL (Ubuntu) | `install.sh` | zsh + oh-my-zsh | apt + mise |
-| Windows ネイティブ | `install.ps1` | PowerShell 7 | winget + mise |
+| 環境 | ブートストラップ | シェル | パッケージ | 役割 |
+|---|---|---|---|---|
+| Linux (Ubuntu / Debian) | `install.sh` | zsh + oh-my-zsh | apt + mise | 環境構築まで |
+| WSL (Ubuntu) | `install.sh` | zsh + oh-my-zsh | apt + mise | 環境構築まで |
+| Windows ネイティブ | 手動 (`chezmoi init`) | 触らない | 触らない | 設定配布のみ |
 
 WSL は「Linux として」セットアップし、Windows 側と行き来するための差分だけを足す。
 Windows ネイティブと WSL を両方使う場合は **両方走らせる** (それぞれ別のホームなので衝突しない)。
+
+Windows で実際に使うのは WSL の中なので、Windows ネイティブ側で chezmoi に
+やらせたいのは **WSL の外に置かざるを得ない設定** だけ、具体的には wezterm・
+VS Code・`~/.config` 配下。シェルやパッケージ管理まで二重に面倒を見る価値が
+無いので、スクリプト (`*.ps1`) は一切置いていない。
 
 OS ごとの出し分けは chezmoi のテンプレート機能でおこなっている。
 `.chezmoiignore` / `.chezmoiexternal.toml.tmpl` / `.chezmoi.toml.tmpl` はどれもテンプレートで、
@@ -44,15 +50,18 @@ sudo apt-get update && sudo apt-get install -y curl
 
 ### Windows ネイティブ
 
-PowerShell で。
+自動化していない。chezmoi を入れて init するだけ。
 
 ```powershell
-irm https://raw.githubusercontent.com/hijoushoku7/dotfiles/main/install.ps1 | iex
+winget install twpayne.chezmoi
+chezmoi init --apply hijoushoku7/dotfiles
 ```
 
-終わったら PowerShell を開き直す (プロファイルの読み込みと PATH の反映のため)。
-
 `winget` が無い場合は Microsoft Store から「アプリ インストーラー」を入れておく。
+`chezmoi` が PATH に乗らない場合は PowerShell を開き直す。
+
+wezterm 本体もここには含まれないので、必要なら別途入れる
+(`winget install wez.wezterm`)。
 
 ### 何が起きるか (Linux / WSL)
 
@@ -69,25 +78,25 @@ irm https://raw.githubusercontent.com/hijoushoku7/dotfiles/main/install.ps1 | ie
 
 ### 何が起きるか (Windows)
 
-| 段階 | 実体 | 内容 |
-|---|---|---|
-| 1 | `install.ps1` | `git` を winget で導入 |
-| 2 | `install.ps1` | chezmoi を `~\.local\bin` に導入 + ユーザ PATH に追加 |
-| 3 | `install.ps1` | `chezmoi init --apply hijoushoku7/dotfiles` |
-| 4 | `run_once_before_00-windows-packages.ps1` | PowerShell 7 / WezTerm を winget で導入 |
-| 5 | `run_once_before_10-install-mise.ps1` | mise 本体を winget → scoop → 単体 exe の順で導入 |
-| 6 | chezmoi apply | 設定ファイルを配置 (zsh / tmux / oh-my-zsh は配置しない) |
-| 7 | `run_onchange_after_20-mise-install.ps1` | `mise install` |
-| 8 | `run_once_after_30-powershell-profile.ps1` | `$PROFILE` にスタブを設置 + `XDG_CONFIG_HOME` を設定 |
+`chezmoi apply` が設定ファイルを配置する。それだけ。スクリプトは走らない。
 
-`install.sh` / `install.ps1` は chezmoi を動かすための最小限しかやらない。
+| 配置されるもの | 用途 |
+|---|---|
+| `~/.config/wezterm/` | 端末 (WSL に入る入口なので Windows 側に要る) |
+| `~/.config/` のその他 (`nvim` `starship.toml` `jgit` `mise`) | Unix と共有 |
+| `~/.vscode/extensions/extensions.json` | VS Code の拡張一覧 |
+| `~/.claude/settings.json` | Claude Code (tmux フックは Unix だけ) |
+
+zsh / tmux / oh-my-zsh / `.chezmoiscripts/` は `.chezmoiignore` で丸ごと落としている。
+PowerShell のプロファイル、mise、winget によるパッケージ導入には**一切関与しない**。
+
+`install.sh` は chezmoi を動かすための最小限しかやらない。
 残りは全て `.chezmoiscripts/` に置いてあるので、**既存マシンで `chezmoi update` しても同じ処理が走る**。
 セットアップ手順が新規／既存で二重管理にならないようにしている。
 
-`.chezmoiscripts/` の `*.sh` は Windows で、`*.ps1` は Unix で、それぞれ
-`.chezmoiignore` によって除外される。`.ps1` を実行するインタプリタは
-`.chezmoi.toml.tmpl` の `[interpreters.ps1]` で指定していて、
-PowerShell 7 (`pwsh`) が無ければ Windows PowerShell (`powershell`) にフォールバックする。
+`.chezmoiscripts/` に入っているのは `*.sh` だけで、Windows では
+`.chezmoiignore` がディレクトリごと除外する。そのため chezmoi の
+`[interpreters]` 設定は要らない。
 
 ### bash → zsh の切り替えについて
 
@@ -143,25 +152,20 @@ mise upgrade              # config.toml の指定範囲内で最新へ
 ```
 .
 ├── install.sh                    # ブートストラップ / Linux・WSL (curl で叩く)
-├── install.ps1                   # ブートストラップ / Windows (irm | iex で叩く)
-├── .chezmoi.toml.tmpl            # chezmoi 自身の設定 (+ Windows の ps1 インタプリタ)
+├── .chezmoi.toml.tmpl            # chezmoi 自身の設定
 ├── .chezmoiignore                # ホームに配置しないもの (OS で分岐)
 ├── .chezmoiexternal.toml.tmpl    # oh-my-zsh / zsh-autosuggestions の取得先 (Unix のみ)
-├── .chezmoiscripts/              # apply 時に自動実行されるスクリプト
-│   ├── run_once_before_00-apt-packages.sh          # Unix
-│   ├── run_once_before_10-install-mise.sh          # Unix
-│   ├── run_onchange_after_20-mise-install.sh.tmpl  # Unix
-│   ├── run_once_after_30-default-shell.sh          # Unix
-│   ├── run_once_before_00-windows-packages.ps1     # Windows
-│   ├── run_once_before_10-install-mise.ps1         # Windows
-│   ├── run_onchange_after_20-mise-install.ps1.tmpl # Windows
-│   └── run_once_after_30-powershell-profile.ps1    # Windows
+├── .chezmoiscripts/              # apply 時に自動実行されるスクリプト (Unix のみ)
+│   ├── run_once_before_00-apt-packages.sh
+│   ├── run_once_before_10-install-mise.sh
+│   ├── run_onchange_after_20-mise-install.sh.tmpl
+│   └── run_once_after_30-default-shell.sh
 ├── dot_zshrc.tmpl                # -> ~/.zshrc            (Unix のみ / WSL 用ブロックあり)
 ├── dot_tmux.conf                 # -> ~/.tmux.conf        (Unix のみ)
 ├── dot_claude/settings.json.tmpl # -> ~/.claude/settings.json (tmux フックは Unix のみ)
+├── dot_vscode/                   # -> ~/.vscode/          (拡張一覧)
 └── dot_config/
     ├── mise/config.toml.tmpl     # 管理するツールとバージョン (Windows は一部除外)
-    ├── powershell/profile.ps1    # -> ~/.config/powershell/profile.ps1 (Windows のみ)
     ├── starship.toml             # プロンプト
     ├── nvim/                     # LazyVim
     ├── jgit/config
@@ -177,19 +181,16 @@ oh-my-zsh と zsh-autosuggestions はリポジトリに同梱せず、
 (週 1 回 `git pull` される)。`omz update` もそのまま使える。
 Windows ネイティブでは丸ごと出力されないので clone もされない。
 
-### Windows の PowerShell プロファイル
+### Windows で管理しないもの
 
-`$PROFILE` の実体 (`Documents\PowerShell\profile.ps1`) は OneDrive に
-リダイレクトされることがあり、PowerShell 7 と 5.1 でも場所が違うので、
-chezmoi のターゲットパスとしては安定しない。
+PowerShell のプロファイル、mise、winget によるパッケージ導入は
+**意図的に管理していない**。作業は WSL の中でやるので、Windows ネイティブ側の
+シェル環境を整えても使われず、`$PROFILE` の場所が OneDrive にリダイレクト
+されるといった Windows 固有の面倒を抱え込むだけだった。
 
-なので本体は `~/.config/powershell/profile.ps1` に置き、
-`run_once_after_30-powershell-profile.ps1` が両方の `$PROFILE` に
-「それを dot-source するだけ」のスタブを追記している。
-編集するのは常に `chezmoi edit ~/.config/powershell/profile.ps1` のほう。
-
-同じスクリプトがユーザ環境変数 `XDG_CONFIG_HOME` を `~\.config` にしている。
-これで neovim が Windows でも `~/.config/nvim` を読み、Unix と設定を共有できる。
+副作用として、ユーザ環境変数 `XDG_CONFIG_HOME` も設定されない。
+Windows ネイティブの neovim は既定の `%LOCALAPPDATA%\nvim` を見るので、
+`~/.config/nvim` は読まれない (Windows で nvim を使わない前提)。
 
 ### WSL の扱い
 
