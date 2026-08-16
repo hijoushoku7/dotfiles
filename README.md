@@ -62,6 +62,7 @@ mise upgrade              # config.toml の指定範囲内で最新へ
 ---
 ## UFWの設定 (ubuntu,debian)
 
+```sh
 ufw status                           # 起動確認
 ufw enable/disable                   # on/off
 
@@ -70,15 +71,17 @@ ufw default deny                     #  デフォルトアクセスを拒否
 ufw allow/deny [port番号]/[protocol]     # ルール追加
 ufw reload                           # ルール再読み込み
 systemctl restart ufw.service        # UFW再始動
-
+```
 ---
 
 ---
 ## ssh
+
+```sh
 ~/.ssh/authorized_keys          # 公開鍵設定
 cat /id_rsa.pub >> ~/.ssh/authorized keys  # 鍵登録
 nvim /etc/ssh/sshd_config       # パスワード認証の禁止
   - PasswordAuthentification yes -> no 
   - Pubkey no -> yes
-
+```
 ---
