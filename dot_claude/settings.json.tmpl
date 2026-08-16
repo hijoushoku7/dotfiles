@@ -1,3 +1,5 @@
+{{- /* tmux-bell フックは tmux 前提なので Windows ネイティブでは出力しない */ -}}
+{{- $isWindows := eq .chezmoi.os "windows" -}}
 {
   "permissions": {
     "allow": [
@@ -98,6 +100,9 @@
     ]
   },
   "model": "opus",
+{{- if $isWindows }}
+  "hooks": {},
+{{- else }}
   "hooks": {
     "Notification": [
       {
@@ -130,6 +135,7 @@
       }
     ]
   },
+{{- end }}
   "enabledPlugins": {
     "codex@openai-codex": true
   },

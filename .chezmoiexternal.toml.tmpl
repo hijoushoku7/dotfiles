@@ -1,7 +1,10 @@
 # chezmoi が管理する外部リポジトリ。
 # リポジトリ本体には含めず、apply 時に取得・定期更新する。
 # docs: https://www.chezmoi.io/reference/special-files/chezmoiexternal-format/
-
+#
+# oh-my-zsh 一式は zsh を使う環境 (Linux / WSL) だけ。
+# Windows ネイティブでは PowerShell プロファイルを使うので取得しない。
+{{ if ne .chezmoi.os "windows" }}
 [".oh-my-zsh"]
     type = "git-repo"
     url = "https://github.com/ohmyzsh/ohmyzsh.git"
@@ -30,3 +33,4 @@
         args = ["--depth=1"]
     [".oh-my-zsh/custom/plugins/zsh-bat".pull]
         args = ["--ff-only"]
+{{ end }}

@@ -1,9 +1,14 @@
+{{- $isWindows := eq .chezmoi.os "windows" -}}
 # mise グローバル設定
 # docs: https://mise.jdx.dev/configuration.html
 #
 # 反映:   mise install     (config通りにインストール)
 # 更新:   mise upgrade     (下の指定範囲内で最新へ)
 # 確認:   mise ls / mise outdated
+#
+# このファイルは chezmoi テンプレート。Windows ネイティブでは
+# Windows 版バイナリが無いツール (tmux / eza / btop など) を落としている。
+# 編集は `chezmoi edit ~/.config/mise/config.toml` から。
 
 [tools]
 # --- 言語 / ランタイム ---
@@ -12,19 +17,23 @@ node = "26"
 go   = "1.26"
 python = "latest"
 
-# --- CLI ツール ---
-eza      = "latest"
+# --- CLI ツール (全 OS 共通) ---
 gh       = "latest"
 lazygit  = "latest"
 starship = "latest"
-tmux     = "latest"
 claude   = "latest"
 codex    = "latest"
 fzf      = "latest"
 ripgrep  = "latest"
 neovim   = "nightly"
 bat      = "latest"
-btop     = "latest"
 dust     = "latest"
 fd       = "latest"
+{{ if not $isWindows }}
+# --- Unix (Linux / WSL) 専用 ---
+# Windows ネイティブ版が無い / 実用的でないもの
+eza      = "latest"
+tmux     = "latest"
+btop     = "latest"
 hunk     = "latest"
+{{- end }}

@@ -3,7 +3,7 @@
 # 下のハッシュは chezmoi がテンプレート展開時に埋め込む。内容が変われば
 # スクリプト本文が変わり、chezmoi が再実行してくれる。
 #
-# config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+# config hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }}
 
 set -eu
 

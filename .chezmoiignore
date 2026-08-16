@@ -1,5 +1,13 @@
+{{/* .chezmoiignore はテンプレートとして評価される (拡張子 .tmpl は不要)。
+     パターンは「ターゲットパス」に対してマッチする。
+     .chezmoiscripts/ 内のスクリプトは run_once_before_00-foo.sh.tmpl なら
+     ターゲット名 .chezmoiscripts/foo.sh (属性と .tmpl が剥がれた形) でマッチする。
+     docs: https://www.chezmoi.io/reference/special-files/chezmoiignore/ */ -}}
+{{- $isWindows := eq .chezmoi.os "windows" -}}
+
 # リポジトリ用のファイル (ホームには配置しない)
 install.sh
+install.ps1
 README.md
 
 # Claude Code: secrets and per-machine state
@@ -15,3 +23,25 @@ README.md
 .claude/session-env/**
 .claude/sessions/**
 .claude/shell-snapshots/**
+
+{{ if $isWindows -}}
+# ---------------------------------------------------------------------------
+# Windows では使わないもの
+# ---------------------------------------------------------------------------
+# zsh / tmux / oh-my-zsh は WSL 側の担当
+.zshrc
+.tmux.conf
+.oh-my-zsh
+.oh-my-zsh/**
+.claude/hooks
+.claude/hooks/**
+# sh スクリプトは実行できない
+.chezmoiscripts/*.sh
+{{ else -}}
+# ---------------------------------------------------------------------------
+# Unix (Linux / WSL) では使わないもの
+# ---------------------------------------------------------------------------
+.config/powershell
+.config/powershell/**
+.chezmoiscripts/*.ps1
+{{ end -}}

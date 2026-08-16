@@ -1,7 +1,9 @@
 #!/bin/sh
-# dotfiles bootstrap script
+# dotfiles bootstrap script (Linux / WSL 用)
 #
 #   sh -c "$(curl -fsLS https://raw.githubusercontent.com/hijoushoku7/dotfiles/main/install.sh)"
+#
+# Windows ネイティブ (PowerShell) 側は install.ps1 を使うこと。
 #
 # ここでやるのは chezmoi を動かすための最小限だけ。
 #   1. curl / git / ca-certificates を入れる
@@ -17,8 +19,39 @@ set -eu
 REPO="hijoushoku7/dotfiles"
 BIN_DIR="${HOME}/.local/bin"
 
-log() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
-die() { printf '\033[1;31mError:\033[0m %s\n' "$*" >&2; exit 1; }
+log()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
+warn() { printf '\033[1;33m警告:\033[0m %s\n' "$*" >&2; }
+die()  { printf '\033[1;31mError:\033[0m %s\n' "$*" >&2; exit 1; }
+
+# ---------------------------------------------------------------------------
+# 0. 環境判定
+# ---------------------------------------------------------------------------
+
+IS_WSL=0
+if [ -r /proc/sys/kernel/osrelease ]; then
+    case "$(tr '[:upper:]' '[:lower:]' < /proc/sys/kernel/osrelease)" in
+        *microsoft*|*wsl*) IS_WSL=1 ;;
+    esac
+fi
+
+# WSL では Windows 側の PATH (/mnt/c/...) が繋がっているので、
+# `command -v git` が git.exe を、`command -v chezmoi` が chezmoi.exe を
+# 拾ってしまうことがある。Windows 側のバイナリを Linux 側の設定に使うと
+# パス表記も改行コードも噛み合わないので、判定からは除外する。
+have() {
+    _p="$(command -v "$1" 2>/dev/null)" || return 1
+    [ -n "$_p" ] || return 1
+    if [ "$IS_WSL" -eq 1 ]; then
+        case "$_p" in
+            /mnt/*|*.exe) return 1 ;;
+        esac
+    fi
+    printf '%s\n' "$_p"
+}
+
+if [ "$IS_WSL" -eq 1 ]; then
+    log "WSL を検出しました (Linux 側として設定します)"
+fi
 
 # ---------------------------------------------------------------------------
 # 1. 前提パッケージ
@@ -35,7 +68,7 @@ fi
 
 missing=""
 for cmd in curl git; do
-    command -v "$cmd" >/dev/null 2>&1 || missing="${missing} ${cmd}"
+    have "$cmd" >/dev/null || missing="${missing} ${cmd}"
 done
 
 if [ -n "${missing# }" ]; then
@@ -57,8 +90,8 @@ fi
 # 2. chezmoi
 # ---------------------------------------------------------------------------
 
-if command -v chezmoi >/dev/null 2>&1; then
-    chezmoi="$(command -v chezmoi)"
+if chezmoi="$(have chezmoi)"; then
+    : # 見つかった (WSL 上の chezmoi.exe は have() が弾く)
 elif [ -x "${BIN_DIR}/chezmoi" ]; then
     chezmoi="${BIN_DIR}/chezmoi"
 else
