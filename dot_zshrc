@@ -60,7 +60,9 @@ alias ta='tmux attach'
 alias tn='tmux new'
 alias t='tmux'
 alias tls='tmux ls'
+
 #tools
 alias cm='chezmoi'
+alias cdx='codex'
 alias cld='claude'
 alias lg='lazygit'
