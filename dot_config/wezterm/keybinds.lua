@@ -50,19 +50,30 @@ keys = {
     },
     -- コマンドパレット表示(SUPER→CTRL|SHIFT)
     { key = "p", mods = "CTRL|SHIFT", action = act.ActivateCommandPalette },
-    -- Tab移動
-    { key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
-    { key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
+    -- CTRL+Tab / CTRL+SHIFT+Tab は tmux のウィンドウ切替に使うため
+    -- wezterm 側では意図的にバインドしない(そのまま端末へ送る)
     -- Tab入れ替え
     { key = "{", mods = "LEADER", action = act({ MoveTabRelative = -1 }) },
     { key = "}", mods = "LEADER", action = act({ MoveTabRelative = 1 }) },
 
     -- Tab新規作成(現在のドメインで)SUPER→LEADER
     { key = "t", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
-    -- ★ドメイン指定でタブ追加
-    { key = "1", mods = "LEADER", action = act.SpawnTab({ DomainName = "dev" }) },
-    { key = "2", mods = "LEADER", action = act.SpawnTab({ DomainName = "web" }) },
-    { key = "3", mods = "LEADER", action = act.SpawnTab({ DomainName = "WSL:Ubuntu" }) },
+    -- ★ドメイン指定でタブ追加 LEADER + Fキー
+    { key = "F1", mods = "LEADER", action = act.SpawnTab({ DomainName = "dev" }) },
+    { key = "F2", mods = "LEADER", action = act.SpawnTab({ DomainName = "web" }) },
+    { key = "F3", mods = "LEADER", action = act.SpawnTab({ DomainName = "mc" }) },
+    { key = "F4", mods = "LEADER", action = act.SpawnTab({ DomainName = "WSL:Ubuntu" }) },
+
+    -- Tab切替(画面遷移) LEADER + 数字
+    { key = "1", mods = "LEADER", action = act.ActivateTab(0) },
+    { key = "2", mods = "LEADER", action = act.ActivateTab(1) },
+    { key = "3", mods = "LEADER", action = act.ActivateTab(2) },
+    { key = "4", mods = "LEADER", action = act.ActivateTab(3) },
+    { key = "5", mods = "LEADER", action = act.ActivateTab(4) },
+    { key = "6", mods = "LEADER", action = act.ActivateTab(5) },
+    { key = "7", mods = "LEADER", action = act.ActivateTab(6) },
+    { key = "8", mods = "LEADER", action = act.ActivateTab(7) },
+    { key = "9", mods = "LEADER", action = act.ActivateTab(-1) },
 
     -- Tabを閉じる(SUPER→CTRL|SHIFT)
     { key = "w", mods = "CTRL|SHIFT", action = act({ CloseCurrentTab = { confirm = true } }) },
