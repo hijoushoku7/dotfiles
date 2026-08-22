@@ -36,6 +36,12 @@ config.ssh_domains = {
   },
 }
 config.default_domain = 'dev'
+
+-- ドメイン名 -> 接続先ホスト (タブ名に使う)
+local domain_host = {}
+for _, d in ipairs(config.ssh_domains) do
+  domain_host[d.name] = d.remote_address
+end
 --
 config.wsl_domains = {
   {
@@ -120,7 +126,8 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     foreground = "#FFFFFF"
   end
   local edge_foreground = background
-  local title = "   " .. wezterm.truncate_right(tab.active_pane.title, max_width - 1) .. "   "
+  local name = domain_host[tab.active_pane.domain_name] or tab.active_pane.title
+  local title = "   " .. wezterm.truncate_right(name, max_width - 1) .. "   "
   return {
     { Background = { Color = edge_background } },
     { Foreground = { Color = edge_foreground } },
