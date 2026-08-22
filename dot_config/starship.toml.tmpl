@@ -9,7 +9,6 @@
 format = """
 [](color_orange)\
 $os\
-$username\
 [](bg:color_yellow fg:color_orange)\
 $directory\
 [](fg:color_yellow bg:color_aqua)\
@@ -31,9 +30,13 @@ $python\
 $docker_context\
 $conda\
 $pixi\
-[](fg:color_bg3 bg:color_bg1)\
+[](fg:color_bg3)\
+$fill\
+[](fg:color_orange)\
+$username\
+[](fg:color_bg1 bg:color_orange)\
 $time\
-[ ](fg:color_bg1)\
+[](fg:color_bg1)\
 $line_break$character"""
 
 palette = 'gruvbox_dark'
@@ -49,6 +52,10 @@ color_orange = '#d65d0e'
 color_purple = '#b16286'
 color_red = '#cc241d'
 color_yellow = '#d79921'
+
+[fill]
+symbol = '─'
+style = 'fg:color_bg3'
 
 [os]
 disabled = false
@@ -198,7 +205,6 @@ vimcmd_visual_symbol = '[<](bold fg:color_yellow)'
 format = """
 [](color_orange)\
 $os\
-$username\
 [](bg:color_yellow fg:color_orange)\
 $directory\
 [](fg:color_yellow bg:color_aqua)\
@@ -220,9 +226,13 @@ $python\
 $docker_context\
 $conda\
 $pixi\
-[](fg:color_bg3 bg:color_bg1)\
+[](fg:color_bg3)\
+$fill\
+[](fg:color_orange)\
+$username\
+[](fg:color_bg1 bg:color_orange)\
 $time\
-[ ](fg:color_bg1)\
+[](fg:color_bg1)\
 $line_break$character"""
 
 palette = 'dango'
@@ -239,6 +249,10 @@ color_orange = '#e8a0bf'
 color_purple = '#b07aa0'
 color_red = '#c2596b'
 color_yellow = '#f4ede3'
+
+[fill]
+symbol = '─'
+style = 'fg:color_bg1'
 
 [os]
 disabled = false
