@@ -76,6 +76,10 @@ alias hd='hunk diff'
 alias hs='hunk show'
 alias hp='hunk skill path'
 
+#function for hunk diff
+prdiff() {
+    gh pr diff "$@" | hunk patch -
+  }
 
 {{- if $isWSL }}
 # ---------------------------------------------------------------------------
