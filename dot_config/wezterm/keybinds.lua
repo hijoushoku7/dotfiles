@@ -86,7 +86,7 @@ return {
 		-- コピー(SUPER→CTRL|SHIFT)
 		{ key = "c", mods = "CTRL|SHIFT", action = act.CopyTo("Clipboard") },
 		-- 貼り付け(SUPER→CTRL|SHIFT)
-		{ key = "phys:V", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
+		{ key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
 
 		-- Pane作成 leader + r or d
 		{ key = "d", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
