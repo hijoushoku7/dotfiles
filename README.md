@@ -79,9 +79,10 @@ systemctl restart ufw.service        # UFW再始動
 
 ```sh
 ~/.ssh/authorized_keys          # 公開鍵設定
-cat /id_rsa.pub >> ~/.ssh/authorized keys  # 鍵登録
+curl https://github.com/<username>.keys >> ~/.ssh/authorized keys  # 鍵登録
 nvim /etc/ssh/sshd_config       # パスワード認証の禁止
   - PasswordAuthentification yes -> no 
   - Pubkey no -> yes
+systemctl restart ssh
 ```
 ---
