@@ -80,9 +80,11 @@ systemctl restart ufw.service        # UFW再始動
 ```sh
 ~/.ssh/authorized_keys          # 公開鍵設定
 curl https://github.com/<username>.keys >> ~/.ssh/authorized keys  # 鍵登録
-nvim /etc/ssh/sshd_config       # パスワード認証の禁止
+sudo nano /etc/ssh/sshd_config       # パスワード認証の禁止
   - PasswordAuthentification yes -> no 
   - Pubkey no -> yes
+sudo nano /etc/ssh/sshd_config.d/50-cloud-init.conf
+    PasswordAuthentification yes -> no             # ここも変更しなければ上書きされる
 systemctl restart ssh
 ```
 ---
