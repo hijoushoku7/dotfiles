@@ -5,44 +5,14 @@ local mux = wezterm.mux
 config.automatically_reload_config = true
 config.font_size = 12.0
 config.use_ime = true
-config.window_background_opacity = 0.92
+config.window_background_opacity = 1
 config.macos_window_background_blur = 20
 
 --　ssh設定
-config.ssh_domains = {
-  {
-    name = 'dev',
-    remote_address = 'dev-server',
-    username = 'hijo-dev',
-    connect_automatically = true,
-    multiplexing = 'None',
-    assume_shell = 'Posix',
-  },
-  {
-    name = 'web',
-    remote_address = 'hijo-web-server',
-    username = 'hijoushoku8',
-    connect_automatically = true,
-    multiplexing = 'None',
-    assume_shell = 'Posix',
-  },
-  {
-    name = 'mc',
-    remote_address = 'hijo-mc-server',
-    username = 'hijoushoku7',
-    connect_automatically = true,
-    multiplexing = 'None',
-    assume_shell = 'Posix',
-  },
-}
-config.default_domain = 'dev'
+-- WezTerm 内蔵 ssh_domain は使わず、ローカルタブで OpenSSH の ssh.exe を起動して
+-- ~/.ssh/config のエイリアス (dev/web/mc) にそのまま任せる。
+config.default_domain = 'local'
 
--- ドメイン名 -> 接続先ホスト (タブ名に使う)
-local domain_host = {}
-for _, d in ipairs(config.ssh_domains) do
-  domain_host[d.name] = d.remote_address
-end
---
 config.wsl_domains = {
   {
     name = 'WSL:Ubuntu',
@@ -52,18 +22,26 @@ config.wsl_domains = {
 
 
 wezterm.on("gui-startup", function(cmd)
-  -- 1つ目のタブ兼ウィンドウを dev で生成
+  -- 1つ目のタブ兼ウィンドウを dev で生成 (ssh.exe を直接起動)
   local tab, pane, window = mux.spawn_window({
-    domain = { DomainName = "dev" },
+    args = { "ssh", "dev" },
+    domain = { DomainName = "local" },
   })
+  tab:set_title("dev")
 
-  -- 2つ目のタブ: dev2
-  window:spawn_tab({
-    domain = { DomainName = "web" },
+  -- 2つ目のタブ: web
+  local web_tab = window:spawn_tab({
+    args = { "ssh", "web" },
+    domain = { DomainName = "local" },
   })
-  window:spawn_tab({
-    domain = { DomainName = "mc" },
+  web_tab:set_title("web")
+
+  -- 3つ目のタブ: mc
+  local mc_tab = window:spawn_tab({
+    args = { "ssh", "mc" },
+    domain = { DomainName = "local" },
   })
+  mc_tab:set_title("mc")
 
   -- 3つ目のタブ: WSL
   window:spawn_tab({
@@ -126,7 +104,9 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     foreground = "#FFFFFF"
   end
   local edge_foreground = background
-  local name = domain_host[tab.active_pane.domain_name] or tab.active_pane.title
+  -- 明示的に付けたタブ名 > ペインのタイトル
+  local name = (tab.tab_title and #tab.tab_title > 0 and tab.tab_title)
+    or tab.active_pane.title
   local title = "   " .. wezterm.truncate_right(name, max_width - 1) .. "   "
   return {
     { Background = { Color = edge_background } },
