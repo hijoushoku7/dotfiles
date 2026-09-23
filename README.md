@@ -86,5 +86,7 @@ sudo nano /etc/ssh/sshd_config       # パスワード認証の禁止
 sudo nano /etc/ssh/sshd_config.d/50-cloud-init.conf
     PasswordAuthentification yes -> no             # ここも変更しなければ上書きされる
 systemctl restart ssh
+ssh-keygen -t ed25519 -C "comment"
+ssh-copy-id user@ip
 ```
 ---
