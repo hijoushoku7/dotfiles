@@ -5,8 +5,9 @@ local mux = wezterm.mux
 config.automatically_reload_config = true
 config.font_size = 12.0
 config.use_ime = true
--- Ctrl+TabのようにASCIIでは区別できないキーをCSI uで区別して送る
-config.enable_csi_u_key_encoding = true
+-- Ctrl+TabのようにASCIIでは区別できないキーをtmux/アプリの要求に応じて
+-- CSI uで区別して送れるようKittyキーボードプロトコルを有効化
+config.enable_kitty_keyboard = true
 config.window_background_opacity = 1
 config.macos_window_background_blur = 20
 
