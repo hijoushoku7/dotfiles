@@ -62,7 +62,8 @@ return {
 		{ key = "F1", mods = "LEADER", action = act.SpawnTab({ DomainName = "dev" }) },
 		{ key = "F2", mods = "LEADER", action = act.SpawnTab({ DomainName = "web" }) },
 		{ key = "F3", mods = "LEADER", action = act.SpawnTab({ DomainName = "mc" }) },
-		{ key = "F4", mods = "LEADER", action = act.SpawnTab({ DomainName = "WSL:Ubuntu" }) },
+		{ key = "F4", mods = "LEADER", action = act.SpawnCommandInNewTab({ args = { "powershell.exe" }, domain = { DomainName = "local" } }) },
+		{ key = "F5", mods = "LEADER", action = act.SpawnCommandInNewTab({ args = { "ssh", "tail-jump" }, domain = { DomainName = "local" } }) },
 
 		-- Tab切替(画面遷移) LEADER + 数字
 		{ key = "1", mods = "LEADER", action = act.ActivateTab(0) },
