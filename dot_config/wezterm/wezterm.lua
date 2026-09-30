@@ -46,11 +46,18 @@ wezterm.on("gui-startup", function(cmd)
   })
   mc_tab:set_title("mc")
 
-  -- 3つ目のタブ: WSL
+  -- 4つ目のタブ: powershell
   window:spawn_tab({
     args = {"powershell.exe"},
     domain = { DomainName = "local" },
   })
+
+  -- 5つ目のタブ: tail-jump
+  local tj_tab = window:spawn_tab({
+    args = { "ssh", "tail-jump" },
+    domain = { DomainName = "local" },
+  })
+  tj_tab:set_title("tail-jump")
 
   -- 最初(dev)のタブをアクティブにしておく
   tab:activate()
