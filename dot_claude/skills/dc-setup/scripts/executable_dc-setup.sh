@@ -6,7 +6,7 @@ set -euo pipefail
 name="${1:?usage: dc-setup <service-name> <container-port> [domain] [network]}"
 port="${2:?usage: dc-setup <service-name> <container-port> [domain] [network]}"
 domain="${3:-hijoushoku.com}"
-network="${4:-cloudflare_tunnel_net}"
+network="${4:-cloudflared_tunnel_net}"
 
 cat <<EOF
 # --- paste into the service block in compose.yml / docker-compose.yml ---

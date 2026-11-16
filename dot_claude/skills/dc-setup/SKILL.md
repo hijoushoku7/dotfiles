@@ -1,6 +1,6 @@
 ---
 name: dc-setup
-description: Adds traefik routing labels (and joins the shared cloudflare_tunnel_net network) to a docker-compose service. Manual-only — invoke ONLY when the user explicitly says "/dc-setup", "dc-setup", or "./dc-setup". Do not use this on your own just because a Dockerfile or docker-compose.yml is being written; the user runs it themselves when they want it.
+description: Adds traefik routing labels (and joins the shared cloudflared_tunnel_net network) to a docker-compose service. Manual-only — invoke ONLY when the user explicitly says "/dc-setup", "dc-setup", or "./dc-setup". Do not use this on your own just because a Dockerfile or docker-compose.yml is being written; the user runs it themselves when they want it.
 ---
 
 # dc-setup
@@ -23,7 +23,7 @@ Then run it (or tell the user how) to get the snippet:
 ```bash
 ./dc-setup <service-name> <container-port> [domain] [network]
 # domain defaults to hijoushoku.com
-# network defaults to cloudflare_tunnel_net
+# network defaults to cloudflared_tunnel_net
 ```
 
 It prints two blocks:
@@ -34,9 +34,9 @@ It prints two blocks:
 
 ## Rules
 
-- The network is always `cloudflare_tunnel_net`, and it is always declared
+- The network is always `cloudflared_tunnel_net`, and it is always declared
   `external: true` — this network is created once outside the project
-  (`docker network create cloudflare_tunnel_net`) and every service that
+  (`docker network create cloudflared_tunnel_net`) and every service that
   needs traefik routing joins it. Never invent a per-project network for
   this.
 - `traefik.docker.network` must match the network name exactly, or traefik
